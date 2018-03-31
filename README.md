@@ -28,7 +28,7 @@ std price    = $ 2,025.90
 ```
 bash multiple-crawling.sh
 ```
-For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60
+For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60 gives you the below plot
 ![image](image.png)
 
 3. Brand guess game: a command line car brand guessing game
