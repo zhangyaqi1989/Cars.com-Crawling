@@ -66,7 +66,7 @@ def load_csvfile(csvfile):
     return df
 
 
-def analyze_price(df, car_info, plot=False):
+def analyze_price(df, plot=False):
     """analyze car price and give a rough idea how expensive the car is"""
     df = df[np.isfinite(df['price'])]
     df = df[df['price'] > 0]
@@ -75,12 +75,18 @@ def analyze_price(df, car_info, plot=False):
         plt.xlabel('price')
         plt.ylabel('number')
     price_info = df['price'].describe()
+    price_info['median'] = df['price'].median()
+    return price_info
+
+
+def print_price_info(price_info, car_info):
+    """print price info"""
     maker, model, condition = car_info
     print("Some Price Information ({}-{}-{}):".format(maker, model, condition))
     n = len('median price')
     print("{:s} = $ {:,.2f}".format('min price'.ljust(n), price_info['min']))
     print("{:s} = $ {:,.2f}".format('mean price'.ljust(n), price_info['mean']))
-    print("{:s} = $ {:,.2f}".format('median price'.ljust(n), df['price'].median()))
+    print("{:s} = $ {:,.2f}".format('median price'.ljust(n), price_info['median']))
     print("{:s} = $ {:,.2f}".format('max price'.ljust(n), price_info['max']))
     print("{:s} = $ {:,.2f}".format('std price'.ljust(n), price_info['std']))
 
@@ -94,7 +100,8 @@ def main():
     min_price, max_price = float(sys.argv[2]), float(sys.argv[3])
     df = load_csvfile(csvfile)
     car_info = extract_info_from_csvfilename(csvfile)
-    analyze_price(df, car_info, plot=False)
+    price_info = analyze_price(df, plot=False)
+    print_price_info(price_info, car_info)
     new_df = extract_cars(df, ('price', (min_price, max_price)))
     print_df(new_df)
     add_year_column(df)

@@ -3,9 +3,10 @@
 # University of Wisconsin-Madison
 # Author: Yaqi Zhang, Jieru Hu
 ##################################
-# This module contains function which can
-# crawl cars information from cars.com
-#########################################
+# This module contains function 
+# which can crawl cars information 
+# from cars.com
+##################################
 
 import os
 import sys
@@ -16,7 +17,7 @@ import urllib.request as urllib2
 from bs4 import BeautifulSoup as bs
 from handle_search_carscom import generate_url
 from utility import user_input, write_cars_to_csv, extract_info_from_csvfilename
-from data_analysis import load_csvfile, analyze_price
+from data_analysis import load_csvfile, analyze_price, print_price_info
 
 
 def get_more_info(car_detail):
@@ -71,7 +72,8 @@ def pipeline_carscom(directory='./'):
     print("finish crawling...")
     df = load_csvfile(csv_name)
     car_info = extract_info_from_csvfilename(csv_name)
-    analyze_price(df, car_info)
+    price_info = analyze_price(df)
+    print_price_info(price_info, car_info)
 
 
 def craw_from_url(start_url, csv_name):

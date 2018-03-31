@@ -7,7 +7,7 @@ The below libraries are needed.
 * numpy
 * matplotlib
 
-Usage:
+Examples:
 1. Cars crawling: crawl cars of a specific model (e.g. Audi Q7) on cars.com and analyze prices.
 ```
 bash crawling.sh
@@ -17,7 +17,3 @@ bash crawling.sh
 ```
 bash brand-guess-game.sh
 ```
-
-3.
-
-
