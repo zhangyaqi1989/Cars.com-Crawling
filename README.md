@@ -29,8 +29,8 @@ std price    = $ 2,025.90
 bash multiple-crawling.sh
 ```
 For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60 gives you the below plot.
-Black denotes the mean price; red line denotes the standard deviation; Blue line shows
-the the maximum and minimum price. 
+Black dot denotes the mean price; red line denotes the standard deviation; Blue line shows
+the the maximum and minimum price.
 ![example](images/image1.png)
 
 3. Brand guess game: a command line car brand guessing game
