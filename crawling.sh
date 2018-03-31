@@ -7,4 +7,4 @@
 # from zip code 53715 
 ##################################
 
-python src/cars_com_crawling.py Audi Q3 53715 100 new src/cars_com_make_model.json data/
+python src/crawl_test.py Audi Q3 53715 100 new src/cars_com_make_model.json data/

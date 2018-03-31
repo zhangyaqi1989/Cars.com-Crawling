@@ -59,22 +59,31 @@ def populate_urls(start_url):
     return url_list
 
 
-def main():
+def read_and_crawl():
     """crawl multiple models and compare"""
-    maker_models = [('Audi', 'Q5'), ('Benz', 'GLC'), ('BMW', 'X3'), ('Volvo', 'XC60'), ('Acura', 'MDX')]
-    zipcode = 53705
-    condition = 'new'
-    radius = 100
-    car_json_file = 'cars_com_make_model.json'
-    directory = '../data/'
+    if len(sys.argv) != 7:
+        print("Usage: >> python {} <maker_model_file> <zip> <radius> <used or new> <json or keyfile> <output_dir>".format(sys.argv[0]))
+        print("e.g. python {} <maker_model_file> 53715 25 used <json or keyfile> ./data/".format(sys.argv[0]))
+        sys.exit(1)
+    with open(sys.argv[1], 'r') as mmfile:
+        maker_models = [tuple(line.split(":")) for line in mmfile.readlines()]
+    # print(maker_models)
+    zipcode = int(sys.argv[2])
+    radius = int(sys.argv[3])
+    condition = sys.argv[4]
+    car_json_file = sys.argv[5]
+    output_dir = sys.argv[6]
+    os.makedirs(output_dir, exist_ok=True) # if the output_dir does not exist, create it
     car_infos = []
     price_infos = []
     for maker, model in maker_models:
+        maker = maker.strip()
+        model = model.strip()
         page_num = 1
         num_per_page = 100
         start_url = generate_url(maker, model, zipcode, radius, car_json_file, condition, page_num, num_per_page)
         csv_name = "{}-{}-{:d}-{:d}-{:s}.csv".format(maker, model, zipcode, radius, condition)
-        csv_name = os.path.join(directory, csv_name)
+        csv_name = os.path.join(output_dir, csv_name)
         print("crawling {} {} {}...".format(condition, maker, model))
         craw_from_url(start_url, csv_name)
         print("finish crawling...")
@@ -152,5 +161,4 @@ def craw_from_url(start_url, csv_name):
 
 
 if __name__ == "__main__":
-    # pipeline_carscom()
-    main()
+    read_and_crawl()

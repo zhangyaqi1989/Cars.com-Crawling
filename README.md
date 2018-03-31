@@ -13,7 +13,12 @@ Examples:
 bash crawling.sh
 ```
 
-2. Brand guess game: a command line car brand guessing game
+2. Multiple crawl: crawl multiple car models listed in a file on cars.com and plot price comparison
+```
+bash multiple-crawling.sh
+```
+
+3. Brand guess game: a command line car brand guessing game
 ```
 bash brand-guess-game.sh
 ```

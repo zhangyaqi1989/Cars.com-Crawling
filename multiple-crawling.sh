@@ -3,8 +3,8 @@
 # University of Wisconsin-Madison
 # Author: Yaqi Zhang, Jieru Hu
 ##################################
-# guess brand game on command line
+# crawl models listed in search-models.txt
+# within 100 miles from zip code 53715 
 ##################################
 
-python src/brand_guess_game_test.py
-
+python src/multiple_craw_test.py search-models.txt 53715 100 new src/cars_com_make_model.json data/
