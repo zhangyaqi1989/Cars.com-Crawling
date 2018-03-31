@@ -7,16 +7,29 @@ The below libraries are needed.
 * numpy
 * matplotlib
 
-Examples:
+Usage:
 1. Cars crawling: crawl cars of a specific model (e.g. Audi Q7) on cars.com and analyze prices.
 ```
 bash crawling.sh
+```
+
+For example, crawl Audi Q3 within 100 miles from 53715 gives you the below information
+```
+Some Price Information (AUDI-Q3-NEW):
+min price    = $ 35,950.00
+mean price   = $ 41,683.36
+median price = $ 41,660.00
+max price    = $ 45,150.00
+std price    = $ 2,025.90
+
 ```
 
 2. Multiple crawl: crawl multiple car models listed in a file on cars.com and plot price comparison
 ```
 bash multiple-crawling.sh
 ```
+For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60
+![image](image.png)
 
 3. Brand guess game: a command line car brand guessing game
 ```

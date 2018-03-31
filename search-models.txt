@@ -1,5 +1,4 @@
-Audi : Q7
-BMW : X5
-Toyota : Land Cruiser
-Benz : GLE
-Volvo : XC90
+Audi : Q5
+BMW : X3
+Benz : GLC
+Volvo : XC60
