@@ -1,4 +1,3 @@
-Audi : Q5
-BMW : X3
-Benz : GLC
-Volvo : XC60
+Toyota : Camry
+Honda : Accord
+Nissan : Altima

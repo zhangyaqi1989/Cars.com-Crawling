@@ -32,6 +32,8 @@ For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60 gives you the below 
 Black dot denotes the mean price; red line denotes the standard deviation; Blue line shows
 the the maximum and minimum price.
 ![example](images/image1.png)
+Also see the comparison of mid-size sedan of Japanese big three.
+![example](images/image3.png)
 
 3. Brand guess game: a command line car brand guessing game
 ```
