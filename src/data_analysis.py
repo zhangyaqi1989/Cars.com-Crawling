@@ -81,7 +81,7 @@ def analyze_price(df, plot=False):
 
 def print_price_info(price_info, car_info):
     """print price info"""
-    maker, model, condition = car_info
+    maker, model, condition = car_info['maker'], car_info['model'], car_info['condition']
     print("Some Price Information ({}-{}-{}):".format(maker, model, condition))
     n = len('median price')
     print("{:s} = $ {:,.2f}".format('min price'.ljust(n), price_info['min']))
@@ -89,6 +89,24 @@ def print_price_info(price_info, car_info):
     print("{:s} = $ {:,.2f}".format('median price'.ljust(n), price_info['median']))
     print("{:s} = $ {:,.2f}".format('max price'.ljust(n), price_info['max']))
     print("{:s} = $ {:,.2f}".format('std price'.ljust(n), price_info['std']))
+
+
+def plot_price_info(car_infos, price_infos):
+    models = []
+    n = len(car_infos)
+    mins, means, maxes, stds = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+    for i in range(n):
+        models.append(car_infos[i]['model'])
+        price_info = price_infos[i]
+        mins[i] = price_info['min']
+        means[i] = price_info['mean']
+        maxes[i] = price_info['max']
+        stds[i] = price_info['std']
+    plt.errorbar(np.arange(n), means, stds, fmt='ok', lw=3, ecolor='red')
+    plt.errorbar(np.arange(n), means, [means - mins, maxes - means], fmt='.k', ecolor='blue', lw=2)
+    plt.xticks(np.arange(n), models)
+    plt.ylabel('price')
+    plt.show()
 
 
 def main():

@@ -21,7 +21,9 @@ def extract_info_from_csvfilename(csv_name):
         csv_name = csv_name[csv_name.rfind('/') + 1 : csv_name.rfind('.')]
     maker, model, *_, condition = csv_name.split('-')
     res = [maker, model, condition]
-    return (item.upper() for item in res)
+    car_info = dict(zip(('maker', 'model', 'condition'), (item.upper() for item in res)))
+    return car_info
+
 
 def user_input():
     """parse command line args"""

@@ -17,7 +17,7 @@ import urllib.request as urllib2
 from bs4 import BeautifulSoup as bs
 from handle_search_carscom import generate_url
 from utility import user_input, write_cars_to_csv, extract_info_from_csvfilename
-from data_analysis import load_csvfile, analyze_price, print_price_info
+from data_analysis import load_csvfile, analyze_price, print_price_info, plot_price_info
 
 
 def get_more_info(car_detail):
@@ -59,6 +59,33 @@ def populate_urls(start_url):
     return url_list
 
 
+def main():
+    """crawl multiple models and compare"""
+    maker_models = [('Audi', 'Q5'), ('Benz', 'GLC'), ('BMW', 'X3'), ('Volvo', 'XC60'), ('Acura', 'MDX')]
+    zipcode = 53705
+    condition = 'new'
+    radius = 100
+    car_json_file = 'cars_com_make_model.json'
+    directory = '../data/'
+    car_infos = []
+    price_infos = []
+    for maker, model in maker_models:
+        page_num = 1
+        num_per_page = 100
+        start_url = generate_url(maker, model, zipcode, radius, car_json_file, condition, page_num, num_per_page)
+        csv_name = "{}-{}-{:d}-{:d}-{:s}.csv".format(maker, model, zipcode, radius, condition)
+        csv_name = os.path.join(directory, csv_name)
+        print("crawling {} {} {}...".format(condition, maker, model))
+        craw_from_url(start_url, csv_name)
+        print("finish crawling...")
+        df = load_csvfile(csv_name)
+        car_info = extract_info_from_csvfilename(csv_name)
+        price_info = analyze_price(df)
+        car_infos.append(car_info)
+        price_infos.append(price_info)
+    plot_price_info(car_infos, price_infos)
+
+
 def pipeline_carscom(directory='./'):
     """crawling pipeline for cars.com"""
     maker, model, zipcode, radius, condition, car_json_file, directory = user_input()
@@ -67,7 +94,7 @@ def pipeline_carscom(directory='./'):
     start_url = generate_url(maker, model, zipcode, radius, car_json_file, condition, page_num, num_per_page)
     csv_name = "{}-{}-{:d}-{:d}-{:s}.csv".format(maker, model, zipcode, radius, condition)
     csv_name = os.path.join(directory, csv_name)
-    print("crawling...")
+    print("crawling {} {} {}...".format(condition, maker, model))
     craw_from_url(start_url, csv_name)
     print("finish crawling...")
     df = load_csvfile(csv_name)
@@ -125,4 +152,5 @@ def craw_from_url(start_url, csv_name):
 
 
 if __name__ == "__main__":
-  pipeline_carscom()
+    # pipeline_carscom()
+    main()
