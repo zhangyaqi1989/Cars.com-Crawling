@@ -15,7 +15,7 @@ import json
 import urllib.request as urllib2
 from bs4 import BeautifulSoup as bs
 from handle_search_carscom import generate_url
-from utility import user_input, write_cars_to_csv
+from utility import user_input, write_cars_to_csv, extract_info_from_csvfilename
 from data_analysis import load_csvfile, analyze_price
 
 
@@ -70,12 +70,8 @@ def pipeline_carscom(directory='./'):
     craw_from_url(start_url, csv_name)
     print("finish crawling...")
     df = load_csvfile(csv_name)
-    if '/' in csv_name:
-        csv_name = csv_name[csv_name.rfind('/') + 1 : ]
-    maker, model = csv_name.split('-')[:2]
-    maker = maker.upper()
-    model = model.upper()
-    analyze_price(df, maker, model)
+    car_info = extract_info_from_csvfilename(csv_name)
+    analyze_price(df, car_info)
 
 
 def craw_from_url(start_url, csv_name):

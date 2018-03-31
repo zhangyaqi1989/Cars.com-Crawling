@@ -12,6 +12,7 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from utility import extract_info_from_csvfilename
 
 def add_year_column(df):
     """extract year info from name column and create a new column called year"""
@@ -65,7 +66,7 @@ def load_csvfile(csvfile):
     return df
 
 
-def analyze_price(df, maker, model, plot=False):
+def analyze_price(df, car_info, plot=False):
     """analyze car price and give a rough idea how expensive the car is"""
     df = df[np.isfinite(df['price'])]
     df = df[df['price'] > 0]
@@ -74,7 +75,8 @@ def analyze_price(df, maker, model, plot=False):
         plt.xlabel('price')
         plt.ylabel('number')
     price_info = df['price'].describe()
-    print("Some Price Information ({}-{}):".format(maker, model))
+    maker, model, condition = car_info
+    print("Some Price Information ({}-{}-{}):".format(maker, model, condition))
     n = len('median price')
     print("{:s} = $ {:,.2f}".format('min price'.ljust(n), price_info['min']))
     print("{:s} = $ {:,.2f}".format('mean price'.ljust(n), price_info['mean']))
@@ -85,18 +87,15 @@ def analyze_price(df, maker, model, plot=False):
 
 def main():
     """show how to use analyze_price()"""
-    if len(sys.argv) != 2:
-        print("Usage: >> python {} <csvfile>".format(sys.argv[0]))
+    if len(sys.argv) != 4:
+        print("Usage: >> python {} <csvfile> <min_price> <max_price>".format(sys.argv[0]))
         sys.exit(1)
     csvfile = sys.argv[1]
+    min_price, max_price = float(sys.argv[2]), float(sys.argv[3])
     df = load_csvfile(csvfile)
-    if '/' in csvfile:
-        csvfile = csvfile[csvfile.rfind('/') + 1 : ]
-    maker, model = csvfile.split('-')[:2]
-    maker = maker.upper()
-    model = model.upper()
-    analyze_price(df, maker, model, plot=False)
-    new_df = extract_cars(df, ('price', (90000, 110000)))
+    car_info = extract_info_from_csvfilename(csvfile)
+    analyze_price(df, car_info, plot=False)
+    new_df = extract_cars(df, ('price', (min_price, max_price)))
     print_df(new_df)
     add_year_column(df)
     plt.show()

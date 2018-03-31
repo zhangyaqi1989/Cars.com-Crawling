@@ -15,6 +15,14 @@ import json
 from collections import OrderedDict, defaultdict
 
 
+def extract_info_from_csvfilename(csv_name):
+    """extract maker, model, new/used info from csv_name"""
+    if '/' in csv_name:
+        csv_name = csv_name[csv_name.rfind('/') + 1 : csv_name.rfind('.')]
+    maker, model, *_, condition = csv_name.split('-')
+    res = [maker, model, condition]
+    return (item.upper() for item in res)
+
 def user_input():
     """parse command line args"""
     if len(sys.argv) != 8:
