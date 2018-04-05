@@ -3,7 +3,8 @@
 # University of Wisconsin-Madison
 # Author: Yaqi Zhang, Jieru Hu
 ##################################
-#
+# implement a simple GUI for car
+# search using TKinter
 ##################################
 
 import os
@@ -12,7 +13,7 @@ sys.path.insert(0, '../src/')
 import csv
 from collections import defaultdict
 from tkinter import Tk, Label, Button, Message, OptionMenu, StringVar, END, \
-        ttk, Entry, IntVar, END, W, E
+        ttk, Entry, IntVar, END, W, E, Radiobutton
 from cars_com_crawling import craw_from_url
 from handle_search_carscom import generate_url
 from utility import user_input, write_cars_to_csv, extract_info_from_csvfilename
@@ -62,6 +63,11 @@ class SearchGUI:
         radius_lst = [25, 50, 100, 200, 250, 500]
         self.radius_menu = OptionMenu(master, self.radius_var, *radius_lst)
         ## 2.5 new and old
+        self.condition_var = StringVar()
+        self.condition_var.set("new")
+        self.new_button = Radiobutton(master, text="New", variable=self.condition_var, value="new")
+        self.used_button = Radiobutton(master, text="Used", variable=self.condition_var, value="used")
+        self.all_button = Radiobutton(master, text="All", variable=self.condition_var, value="all")
         ## 2.5 output
         self.mean_label_text = IntVar()
         self.mean = 0
@@ -81,10 +87,13 @@ class SearchGUI:
         self.zip_entry.grid(row=2, column=1, columnspan=2, sticky=W+E)
         self.radius_label.grid(row=3, column=0, sticky=W)
         self.radius_menu.grid(row=3, column=1, columnspan=2)
-        self.mean_name_label.grid(row=4, column=0, sticky=W)
-        self.mean_label.grid(row=4, column=1, columnspan=2, sticky=W+E)
-        self.search_button.grid(row=5, column=1)
-        self.close_button.grid(row=5, column=2)
+        self.new_button.grid(row=4, column=0, sticky=W+E)
+        self.used_button.grid(row=4, column=1, sticky=W+E)
+        self.all_button.grid(row=4, column=2, sticky=W+E)
+        self.mean_name_label.grid(row=5, column=0, sticky=W)
+        self.mean_label.grid(row=5, column=1, columnspan=2, sticky=W+E)
+        self.search_button.grid(row=6, column=1)
+        self.close_button.grid(row=6, column=2)
 
 
     def search(self):
@@ -92,7 +101,7 @@ class SearchGUI:
         model = self.model_box.get()
         zipcode = int(self.zip_entry.get())
         radius = int(self.radius_var.get())
-        condition = "new"
+        condition = self.condition_var.get()
         car_json_file = "cars_com_make_model.json"
         directory = "../data/"
         page_num = 1

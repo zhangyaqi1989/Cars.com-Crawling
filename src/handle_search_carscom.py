@@ -95,15 +95,23 @@ def search_makerID_and_modelID(mk, md, car_json_file):
 def generate_url(maker, model, zipcode, radius, car_json_file, condition="new", page_num=1,num_per_page=100):
     '''generate url according to search'''
     if condition.lower() == "used" or condition.lower() == "old":
-        used = True
+        choose_all = False
         new_used_code = 28881
-    else:
-        used = False
+    elif condition.lower() == "new":
+        choose_all = False
         new_used_code = 28880
-    template_url = "https://www.cars.com/for-sale/searchresults.action/?mkId=%s&mdId=%s&page=%d&perPage=%d&rd=%d&zc=%d&stkTypId=%d&searchSource=QUICK_FORM"
+    else:
+        choose_all = True
+    if choose_all:
+        template_url = "https://www.cars.com/for-sale/searchresults.action/?mkId=%s&mdId=%s&page=%d&perPage=%d&rd=%d&zc=%d&searchSource=QUICK_FORM"
+    else:
+        template_url = "https://www.cars.com/for-sale/searchresults.action/?mkId=%s&mdId=%s&page=%d&perPage=%d&rd=%d&zc=%d&stkTypId=%d&searchSource=QUICK_FORM"
     mkid, mdid = search_makerID_and_modelID(maker, model, car_json_file)
     if mkid and mdid:
-        url = template_url%(mkid, mdid, page_num, num_per_page, int(radius), zipcode, new_used_code)
+        if choose_all:
+            url = template_url%(mkid, mdid, page_num, num_per_page, int(radius), zipcode)
+        else:
+            url = template_url%(mkid, mdid, page_num, num_per_page, int(radius), zipcode, new_used_code)
     return url
 
 
