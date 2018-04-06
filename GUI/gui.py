@@ -69,11 +69,24 @@ class SearchGUI:
         self.used_button = Radiobutton(master, text="Used", variable=self.condition_var, value="used")
         self.all_button = Radiobutton(master, text="All", variable=self.condition_var, value="all")
         ## 2.5 output
+        ### 2.5.1 mean
         self.mean_label_text = IntVar()
         self.mean = 0
         self.mean_label_text.set(self.mean)
         self.mean_label = Label(master, textvariable=self.mean_label_text)
         self.mean_name_label = Label(master, text="Mean Price ($): ")
+        ### 2.5.2 min
+        self.min_label_text = IntVar()
+        self.min = 0
+        self.min_label_text.set(self.min)
+        self.min_label = Label(master, textvariable=self.min_label_text)
+        self.min_name_label = Label(master, text="Min Price ($): ")
+        ### 2.5.3 max
+        self.max_label_text = IntVar()
+        self.max = 0
+        self.max_label_text.set(self.max)
+        self.max_label = Label(master, textvariable=self.max_label_text)
+        self.max_name_label = Label(master, text="Max Price ($): ")
 
         self.search_button = Button(master, text="Search", command=self.search)
         self.close_button = Button(master, text="Close", command=master.quit)
@@ -90,10 +103,14 @@ class SearchGUI:
         self.new_button.grid(row=4, column=0, sticky=W+E)
         self.used_button.grid(row=4, column=1, sticky=W+E)
         self.all_button.grid(row=4, column=2, sticky=W+E)
-        self.mean_name_label.grid(row=5, column=0, sticky=W)
-        self.mean_label.grid(row=5, column=1, columnspan=2, sticky=W+E)
-        self.search_button.grid(row=6, column=1)
-        self.close_button.grid(row=6, column=2)
+        self.min_name_label.grid(row=5, column=0, sticky=W)
+        self.min_label.grid(row=5, column=1, columnspan=2, sticky=W+E)
+        self.mean_name_label.grid(row=6, column=0, sticky=W)
+        self.mean_label.grid(row=6, column=1, columnspan=2, sticky=W+E)
+        self.max_name_label.grid(row=7, column=0, sticky=W)
+        self.max_label.grid(row=7, column=1, columnspan=2, sticky=W+E)
+        self.search_button.grid(row=8, column=1)
+        self.close_button.grid(row=8, column=2)
 
 
     def search(self):
@@ -116,8 +133,12 @@ class SearchGUI:
         car_info = extract_info_from_csvfilename(csv_name)
         price_info = analyze_price(df)
         # print_price_info(price_info, car_info)
-        self.mean = price_info['mean']
-        self.mean_label_text.set(int(self.mean))
+        self.mean = int(price_info['mean'])
+        self.min = int(price_info['min'])
+        self.max = int(price_info['max'])
+        self.min_label_text.set(self.min)
+        self.mean_label_text.set(self.mean)
+        self.max_label_text.set(self.max)
 
 
     def validate(self, new_text):
