@@ -7,7 +7,19 @@ The below libraries are needed.
 * numpy
 * matplotlib
 
-Usage:
+*Update (04-06-18)*
+
+Add a simple GUI using Python TKinter.
+
+![GUI](images/image-gui.png)
+
+You could launch GUI with
+
+```
+python GUI/gui.py
+```
+
+*Usage*:
 1. Cars crawling: crawl cars of a specific model (e.g. Audi Q7) on cars.com and analyze prices.
 ```
 bash crawling.sh
