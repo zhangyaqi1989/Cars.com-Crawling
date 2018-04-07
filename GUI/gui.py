@@ -9,7 +9,10 @@
 
 import os
 import sys
-sys.path.insert(0, '../src/')
+abspath = os.path.abspath(__file__)
+dirname = os.path.dirname(abspath)
+os.chdir(dirname)
+sys.path.insert(0, "../src/")
 import csv
 from collections import defaultdict
 from tkinter import Tk, Label, Button, Message, OptionMenu, StringVar, END, \
