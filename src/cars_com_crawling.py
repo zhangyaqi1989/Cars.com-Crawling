@@ -123,7 +123,10 @@ def craw_from_url(start_url, csv_name):
             oururl = uopen.read()
         soup = bs(oururl, 'lxml')
         # get car general information from json script
-        cars_info = json.loads(soup.find('script', type='application/ld+json').text)
+        # 04/29/18 YZ use findAll and pick the last
+        contents = soup.findAll('script', type='application/ld+json')[-1].text
+        cars_info = json.loads(contents)
+        # cars_info = json.loads(soup.findall('script', type='application/ld+json').text)
 
         # get more detailed car information from HTML tags
         cars_detail_list = soup.find_all('div', class_='shop-srp-listings__listing')
@@ -135,7 +138,6 @@ def craw_from_url(start_url, csv_name):
         # for each car, extract and insert information into csv table
         for ind, car_data in enumerate(cars_info):
             count += 1
-            # print (count, ": ", car_data['name'])
             car_info = {"name": car_data['name'], "brand": car_data['brand']['name'], "color":
                     car_data['color'], "price": car_data['offers']['price'], "seller_name":
                     car_data['offers']['seller']['name'], "VIN": car_data['vehicleIdentificationNumber']}
@@ -153,6 +155,7 @@ def craw_from_url(start_url, csv_name):
             # combine two dicts
             car_dict = {**car_info, **car_details}
             csv_rows.append(dict(car_dict))
+
 
     csv_header = ["name", "brand", "color", "price", "seller_name", "seller_phone",
             "seller_average_rating", "seller_review_count", "miles", "distance_from_Madison", "Exterior Color",

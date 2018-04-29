@@ -2,10 +2,16 @@
 A python crawler which can crawl car information from [cars.com](https://www.cars.com). It supports
 python 3.6+.
 The below libraries are needed.
+
 * Beautiful Soup 4
 * pandas
 * numpy
 * matplotlib
+
+
+*Update (04-29-18)*
+
+cars.com changed the html page slightly. The previous python crawler does not work. I have fixed it.
 
 *Update (04-06-18)*
 
