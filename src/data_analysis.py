@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 # local library
 from utility import extract_info_from_csvfilename
 
+
 def add_year_column(df):
     """
     extract year info from name column and create a new column called year
@@ -37,7 +38,7 @@ def add_year_column(df):
         try:
             year = int(year_str)
         except ValueError:
-            year = 2018 # default
+            year = 2018  # default
         years.append(year)
     df['year'] = years
 
@@ -142,7 +143,10 @@ def print_price_info(price_info, car_info):
     n = len('median price')
     print("{:s} = $ {:,.2f}".format('min price'.ljust(n), price_info['min']))
     print("{:s} = $ {:,.2f}".format('mean price'.ljust(n), price_info['mean']))
-    print("{:s} = $ {:,.2f}".format('median price'.ljust(n), price_info['median']))
+    print(
+        "{:s} = $ {:,.2f}".format(
+            'median price'.ljust(n),
+            price_info['median']))
     print("{:s} = $ {:,.2f}".format('max price'.ljust(n), price_info['max']))
     print("{:s} = $ {:,.2f}".format('std price'.ljust(n), price_info['std']))
 
@@ -160,7 +164,8 @@ def plot_price_info(car_infos, price_infos):
     """
     models = []
     n = len(car_infos)
-    mins, means, maxes, stds = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+    mins, means, maxes, stds = np.zeros(
+        n), np.zeros(n), np.zeros(n), np.zeros(n)
     for i in range(n):
         models.append(car_infos[i]['model'])
         price_info = price_infos[i]
@@ -169,7 +174,9 @@ def plot_price_info(car_infos, price_infos):
         maxes[i] = price_info['max']
         stds[i] = price_info['std']
     plt.errorbar(np.arange(n), means, stds, fmt='ok', lw=3, ecolor='red')
-    plt.errorbar(np.arange(n), means, [means - mins, maxes - means], fmt='.k', ecolor='blue', lw=2)
+    plt.errorbar(
+        np.arange(n), means, [
+            means - mins, maxes - means], fmt='.k', ecolor='blue', lw=2)
     plt.xticks(np.arange(n), models)
     plt.ylabel('price')
     plt.show()
@@ -178,7 +185,9 @@ def plot_price_info(car_infos, price_infos):
 def main():
     """show how to use analyze_price()"""
     if len(sys.argv) != 4:
-        print("Usage: >> python {} <csvfile> <min_price> <max_price>".format(sys.argv[0]))
+        print(
+            "Usage: >> python {} <csvfile> <min_price> <max_price>".format(
+                sys.argv[0]))
         sys.exit(1)
     csvfile = sys.argv[1]
     min_price, max_price = float(sys.argv[2]), float(sys.argv[3])
@@ -190,6 +199,7 @@ def main():
     print_df(new_df)
     add_year_column(df)
     plt.show()
+
 
 if __name__ == "__main__":
     main()

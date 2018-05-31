@@ -32,8 +32,8 @@ def construct_maker_model_dict(data_file='model_codes_carscom.csv'):
     with open(data_file, 'r') as f:
         reader = csv.DictReader(f)
         for line in reader:
-            d[line['maker']][line['model']] = (line['maker code'],\
-                    line['model code'])
+            d[line['maker']][line['model']] = (line['maker code'],
+                                               line['model code'])
     return d
 
 
@@ -53,8 +53,8 @@ def print_maker_model_id():
     for i, maker in enumerate(data, 1):
         print("{:2d}. {:s}\t{:d}".format(i, maker['nm'], maker['id']))
         for j, model in enumerate(maker['md'], 1):
-            print("\t{:2d}.{:d} {:s}\t{}".format\
-                    (i, j, model['nm'], model['id']))
+            print("\t{:2d}.{:d} {:s}\t{}".format
+                  (i, j, model['nm'], model['id']))
 
 
 def search_makerID_and_modelID(mk, md, car_json_file):
@@ -78,8 +78,8 @@ def search_makerID_and_modelID(mk, md, car_json_file):
     if mk == "mb" or mk == "benz" or mk == "mercedes":
         mk = "mercedes-benz"
     if mk == "mercedes-benz":
-        if md in ['c', 'e', 'cla', 'cls', 'e', 'g', 'gl', \
-                'gla', 'gle', 'glc', 'gls', 'm', 's']:
+        if md in ['c', 'e', 'cla', 'cls', 'e', 'g', 'gl',
+                  'gla', 'gle', 'glc', 'gls', 'm', 's']:
             md += "-class"
     # 2. BMW
     if mk == "bmw":
@@ -115,7 +115,8 @@ def search_makerID_and_modelID(mk, md, car_json_file):
     return None, None
 
 
-def generate_url(maker, model, zipcode, radius, car_json_file, condition="new", page_num=1,num_per_page=100):
+def generate_url(maker, model, zipcode, radius, car_json_file,
+                 condition="new", page_num=1, num_per_page=100):
     """
     generate url according to search query
 
@@ -145,9 +146,16 @@ def generate_url(maker, model, zipcode, radius, car_json_file, condition="new", 
     mkid, mdid = search_makerID_and_modelID(maker, model, car_json_file)
     if mkid and mdid:
         if choose_all:
-            url = template_url%(mkid, mdid, page_num, num_per_page, int(radius), zipcode)
+            url = template_url % (mkid, mdid, page_num,
+                                  num_per_page, int(radius), zipcode)
         else:
-            url = template_url%(mkid, mdid, page_num, num_per_page, int(radius), zipcode, new_used_code)
+            url = template_url % (mkid,
+                                  mdid,
+                                  page_num,
+                                  num_per_page,
+                                  int(radius),
+                                  zipcode,
+                                  new_used_code)
     return url
 
 
@@ -156,11 +164,18 @@ def test():
     maker = 'Audi'
     model = 'Q7'
     zipcode = 53705
-    radius = 200 # miles
+    radius = 200  # miles
     used = False
     page_num = 1
     num_per_page = 100
-    url = generate_url(maker, model, zipcode, radius, used, page_num, num_per_page)
+    url = generate_url(
+        maker,
+        model,
+        zipcode,
+        radius,
+        used,
+        page_num,
+        num_per_page)
     print(url)
     # url = re.sub(r'page=[0-9]+&perPage=[0-9]+', r'page=%d&perPage=%d', url)
     # print(url)

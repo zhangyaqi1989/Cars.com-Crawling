@@ -28,10 +28,11 @@ def extract_info_from_csvfilename(csv_name):
         car_info: a dictionary which contains maker/model/condition
     """
     if '/' in csv_name:
-        csv_name = csv_name[csv_name.rfind('/') + 1 : csv_name.rfind('.')]
+        csv_name = csv_name[csv_name.rfind('/') + 1: csv_name.rfind('.')]
     maker, model, *_, condition = csv_name.split('-')
     res = [maker, model, condition]
-    car_info = dict(zip(('maker', 'model', 'condition'), (item.upper() for item in res)))
+    car_info = dict(zip(('maker', 'model', 'condition'),
+                        (item.upper() for item in res)))
     return car_info
 
 
@@ -43,8 +44,11 @@ def user_input():
         A tuple contains search query
     """
     if len(sys.argv) != 8:
-        print("Usage: >> python {} <maker> <model> <zip> <radius> <used or new> <json or keyfile> <output_dir>".format(sys.argv[0]))
-        print("e.g. python {} Honda Accord 53715 25 used <json or keyfile> ./data/".format(sys.argv[0]))
+        print(
+            "Usage: >> python {} <maker> <model> <zip> <radius> <used or new> <json or keyfile> <output_dir>".format(
+                sys.argv[0]))
+        print(
+            "e.g. python {} Honda Accord 53715 25 used <json or keyfile> ./data/".format(sys.argv[0]))
         sys.exit(1)
     # need to add validation check
     maker = sys.argv[1]
@@ -54,7 +58,8 @@ def user_input():
     condition = sys.argv[5]
     extra_file = sys.argv[6]
     output_dir = sys.argv[7]
-    os.makedirs(output_dir, exist_ok=True) # if the output_dir does not exist, create it
+    # if the output_dir does not exist, create it
+    os.makedirs(output_dir, exist_ok=True)
     return (maker, model, zipcode, radius, condition, extra_file, output_dir)
 
 
@@ -80,7 +85,10 @@ def write_cars_to_csv(csv_name, csv_header, csv_rows):
         writer.writeheader()
         for row in csv_rows:
             writer.writerow(row)
-    print("Writing {:d} cars information to {:s}".format(len(csv_rows), csv_name))
+    print(
+        "Writing {:d} cars information to {:s}".format(
+            len(csv_rows),
+            csv_name))
 
 
 def guess_car_brand(data_file='model_codes_carscom.csv'):
@@ -113,8 +121,8 @@ def guess_car_brand(data_file='model_codes_carscom.csv'):
         count -= 1
         model, brand = random.choice(list(model_brand_pairs.items()))
         question_num += 1
-        print("{:d}. What is the brand of {}? (choose one from {} to {})".\
-                format(question_num, model, letters[0], letters[-1]))
+        print("{:d}. What is the brand of {}? (choose one from {} to {})".
+              format(question_num, model, letters[0], letters[-1]))
         choices = random.sample(brands, num_choices - 1)
         choices.append(brand)
         random.shuffle(choices)
@@ -154,7 +162,7 @@ def extract_maker_model_codes(csv_name):
     data = data['all']
     car_dict = {}
     for i, maker in enumerate(data, 1):
-        car_dict['maker'] = maker['nm'].strip() # name
+        car_dict['maker'] = maker['nm'].strip()  # name
         car_dict['maker code'] = maker['id']    # id
         for j, model in enumerate(maker['md'], 1):
             model_name = model['nm'].strip()
@@ -164,6 +172,7 @@ def extract_maker_model_codes(csv_name):
             car_dict['model code'] = model['id']
             csv_rows.append(dict(car_dict))
     write_cars_to_csv(csv_name, csv_header, csv_rows)
+
 
 if __name__ == "__main__":
     print("Welcome to automotive brand guessing game!")
