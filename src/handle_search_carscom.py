@@ -3,22 +3,31 @@
 # University of Wisconsin-Madison
 # Author: Yaqi Zhang, Jieru Hu
 ##################################
-# This module contains functions
-# that generates url on cars.com
-# according to user's key words
-##################################
+"""
+This module contains functions that generates url on cars.com
+according to user's query
+"""
 
+# standard library
 import sys
 import re
 import json
 import csv
 from difflib import SequenceMatcher
+
+# local library
 from utility import write_cars_to_csv
 # from pprint import pprint
 
 
 def construct_maker_model_dict(data_file='model_codes_carscom.csv'):
-    """construct a dict d[maker][model] = (maker_id, model_id)"""
+    """
+    construct a dict d[maker][model] = (maker_id, model_id) from
+    csv file
+
+    Args:
+        data_file: model codes csv file
+    """
     d = defaultdict(dict)
     with open(data_file, 'r') as f:
         reader = csv.DictReader(f)
@@ -28,13 +37,17 @@ def construct_maker_model_dict(data_file='model_codes_carscom.csv'):
     return d
 
 
-def similar(sa, sb):
-    """compute similarity ratio of two strings"""
+def string_similar(sa, sb):
+    """
+    compute similarity ratio of two strings
+    """
     return SequenceMatcher(None, sa, sb).ratio()
 
 
-def main():
-    """print id information for different makers and models"""
+def print_maker_model_id():
+    """
+    print id information for different makers and models
+    """
     data = json.load(open('cars_com_make_model.json'))
     data = data['all']
     for i, maker in enumerate(data, 1):
@@ -45,7 +58,17 @@ def main():
 
 
 def search_makerID_and_modelID(mk, md, car_json_file):
-    '''search maker id and model id'''
+    """
+    search maker id and model id
+
+    Args:
+        mk: maker string
+        md: model string
+        car_json_file: cars.com mk-md json file
+
+    Returns:
+        (mkid, mdid): maker id, model id
+    """
     data = json.load(open(car_json_file))
     data = data['all']
     mk = mk.lower()
@@ -93,7 +116,20 @@ def search_makerID_and_modelID(mk, md, car_json_file):
 
 
 def generate_url(maker, model, zipcode, radius, car_json_file, condition="new", page_num=1,num_per_page=100):
-    '''generate url according to search'''
+    """
+    generate url according to search query
+
+    Args:
+        maker: maker string
+        model: model string
+        zipcode: zipcode (int)
+        radius: radius (int)
+        cat_json_file: cars.com mk-md json file
+        condition: condition
+
+    Returns:
+        url
+    """
     if condition.lower() == "used" or condition.lower() == "old":
         choose_all = False
         new_used_code = 28881
@@ -116,6 +152,7 @@ def generate_url(maker, model, zipcode, radius, car_json_file, condition="new", 
 
 
 def test():
+    """test generate_url"""
     maker = 'Audi'
     model = 'Q7'
     zipcode = 53705
@@ -131,5 +168,5 @@ def test():
 
 if __name__ == "__main__":
     print("Hello World")
-    # main()
+    print_maker_model_id()
     # test()

@@ -3,8 +3,9 @@
 # University of Wisconsin-Madison
 # Author: Yaqi Zhang
 ##################################
-# guess car brand game
-##################################
+"""
+guess car brand game
+"""
 
 from utility import guess_car_brand
 
