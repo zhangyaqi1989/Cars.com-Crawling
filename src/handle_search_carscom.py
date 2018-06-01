@@ -40,6 +40,13 @@ def construct_maker_model_dict(data_file='model_codes_carscom.csv'):
 def string_similar(sa, sb):
     """
     compute similarity ratio of two strings
+
+    Args:
+        sa: string a
+        sb: string b
+
+    Returns:
+        similarity ratio of sa and sb
     """
     return SequenceMatcher(None, sa, sb).ratio()
 

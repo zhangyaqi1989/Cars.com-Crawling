@@ -42,6 +42,7 @@ def get_more_info(car_detail):
     if car_miles is not None:
         car_miles = (int)(car_miles.text.split()[0].replace(",", ""))
     # distance away
+    # 06/01/18 YZ
     distance = (int)(car_detail.find('div',
                                      class_='listing-row__distance listing-row__distance-mobile').text.split()[0])
 

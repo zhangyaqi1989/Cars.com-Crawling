@@ -5,7 +5,7 @@
 ##################################
 """
 This module contains some functions
-that analyze car data in csv file
+that analyzes car data in csv file
 """
 
 # standard library
