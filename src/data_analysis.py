@@ -16,9 +16,13 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
+import seaborn as sns
 
 # local library
 from utility import extract_info_from_csvfilename
+
+sns.set()
 
 
 def add_year_column(df):
@@ -166,6 +170,7 @@ def plot_price_info(car_infos, price_infos):
     n = len(car_infos)
     mins, means, maxes, stds = np.zeros(
         n), np.zeros(n), np.zeros(n), np.zeros(n)
+    fig, ax = plt.subplots(figsize=(8, 8))
     for i in range(n):
         models.append(car_infos[i]['model'])
         price_info = price_infos[i]
@@ -173,11 +178,14 @@ def plot_price_info(car_infos, price_infos):
         means[i] = price_info['mean']
         maxes[i] = price_info['max']
         stds[i] = price_info['std']
-    plt.errorbar(np.arange(n), means, stds, fmt='ok', lw=3, ecolor='red')
-    plt.errorbar(
+    ax.errorbar(np.arange(n), means, stds, fmt='ok', lw=3, ecolor='red')
+    ax.errorbar(
         np.arange(n), means, [
             means - mins, maxes - means], fmt='.k', ecolor='blue', lw=2)
     plt.xticks(np.arange(n), models)
+    fmt = '${x:,.0f}'
+    tick = mtick.StrMethodFormatter(fmt)
+    ax.yaxis.set_major_formatter(tick)
     plt.ylabel('price')
     plt.show()
 

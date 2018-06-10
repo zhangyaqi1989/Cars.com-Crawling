@@ -46,7 +46,7 @@ std price    = $ 2,025.90
 ```
 bash multiple-crawling.sh
 ```
-For example, crawl Audi Q5, BMW X3, Benz GLC and Volvo XC60 gives you the below plot.
+For example, crawl Audi Q5, BMW X3 and Benz GLC gives you the below plot.
 Black dot denotes the mean price; red line denotes the standard deviation; Blue line shows
 the the maximum and minimum price.
 ![example](images/image1.png)
